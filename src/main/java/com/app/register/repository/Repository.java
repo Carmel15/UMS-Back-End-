@@ -4,7 +4,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
+import com.app.register.model.LoginHistory;
 import com.app.register.model.UserRegister;
+
 
 public interface Repository extends JpaRepository<UserRegister, Integer> {
 
@@ -15,6 +18,11 @@ public interface Repository extends JpaRepository<UserRegister, Integer> {
 	public Optional<UserRegister> findByFirstName(String firstName);
 	
 	public Optional<UserRegister> findById(int id);
-	
+
+	public static void save(LoginHistory loginHistory) {
+		
+		
+	}
+
 
 }

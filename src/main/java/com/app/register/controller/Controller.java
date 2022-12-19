@@ -1,5 +1,6 @@
 package com.app.register.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.register.model.LoginHistory;
 import com.app.register.model.UserRegister;
+import com.app.register.repository.LoginHistoryRepository;
+import com.app.register.repository.Repository;
 import com.app.register.service.RegistrationService;
 
 import java.util.List;
@@ -22,6 +26,9 @@ public class Controller {
 
 	@Autowired
 	private RegistrationService service;
+	
+	@Autowired
+	LoginHistoryRepository loginHistoryRepository;
 
 	@PostMapping("/registeruser")
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -41,7 +48,7 @@ public class Controller {
 	@PostMapping("/updateuser/{id}")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public UserRegister updateUser(@RequestBody UserRegister user) throws Exception {
-		String tempEmailId = user.getEmail(); 
+		String tempEmailId = user.getEmail();
 
 		if (tempEmailId != null && !"".equals(tempEmailId)) {
 		}
@@ -61,9 +68,17 @@ public class Controller {
 		if (tempEmailId != null && tempPass != null) {
 			userObj = service.fetchUserByEmailIdAndPassword(tempEmailId, tempPass);
 			System.out.println("login success");
+
+			LoginHistory loginHistory = new LoginHistory();
+
+			loginHistory.setUser(userObj);
+
+			LocalDateTime instant = LocalDateTime.now();
+			loginHistory.setLastLoginTimeStamp(instant);
+			loginHistoryRepository.save(loginHistory);
 		}
 		if (userObj == null) {
-			throw new Exception("bad Credentials");
+			throw new Exception("bad Credentials" );
 		}
 		return userObj;
 	}
@@ -82,12 +97,12 @@ public class Controller {
 		System.out.println(firstName);
 		return service.fetchUserByFirstName(firstName).get();
 	}
-	
+
 	@GetMapping("/getuserbyid/{id}")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public UserRegister fetchUserById(@PathVariable int id) {
-                    return service.fetchUserById(id).get();
-    }
+	@CrossOrigin(origins = "http://localhost:3000")
+	public UserRegister fetchUserById(@PathVariable int id) {
+		return service.fetchUserById(id).get();
+	}
 
 	@DeleteMapping("/deleteuserbyid/{id}")
 	@CrossOrigin(origins = "http://localhost:3000")
@@ -95,4 +110,5 @@ public class Controller {
 		service.deleteUserById(id);
 		return "User deleted successfully ";
 	}
+
 }

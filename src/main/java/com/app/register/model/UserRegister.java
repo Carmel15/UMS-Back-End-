@@ -1,9 +1,15 @@
 package com.app.register.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class UserRegister {
@@ -20,7 +26,10 @@ public class UserRegister {
 	public UserRegister() {
 		super();
 	}
-
+	@OneToMany(mappedBy="user",cascade = CascadeType.ALL)
+	@JsonBackReference
+	List<LoginHistory> loginHistory;
+	
 	public UserRegister(String firstName, String lastName, String password, String gender, String email, long mobileNo,
 			String userType) {
 		super();
@@ -94,6 +103,14 @@ public class UserRegister {
 
 	public String getUserType() {
 		return userType;
+	}
+
+	public List<LoginHistory> getLoginHistory() {
+		return loginHistory;
+	}
+
+	public void setLoginHistory(List<LoginHistory> loginHistory) {
+		this.loginHistory = loginHistory;
 	}
 
 	public void setUserType(String userType) {
