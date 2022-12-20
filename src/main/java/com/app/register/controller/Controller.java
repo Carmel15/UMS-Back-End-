@@ -38,7 +38,7 @@ public class Controller {
 			UserRegister userObj = service.fetchUserByEmailId(tempEmailId);
 
 			if (userObj != null) {
-				throw new Exception("user with " + tempEmailId + " is already exist");
+				throw new Exception("user with " + tempEmailId + " is already exists");
 			}
 		}
 		UserRegister userObj = service.saveUser(user);
