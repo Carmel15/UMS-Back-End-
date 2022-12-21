@@ -2,7 +2,10 @@ package com.app.register.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.app.register.model.LoginHistory;
 import com.app.register.model.UserRegister;
+import com.app.register.repository.LoginHistoryRepository;
 import com.app.register.repository.Repository;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +14,9 @@ import java.util.Optional;
 public class RegistrationService {
 	@Autowired
 	private Repository repo;
+	@Autowired
+	private LoginHistoryRepository rep;
+
 
 	public UserRegister saveUser(UserRegister user) {
 		return repo.save(user);
@@ -27,7 +33,9 @@ public class RegistrationService {
 	public List<UserRegister> fetchUserList() {
 		return repo.findAll();
 	}
-
+	public List<LoginHistory> fetchhistoryList() {
+		return rep.findAll();
+	}
 	public Optional<UserRegister> fetchUserByFirstName(String firstName) {
 		return repo.findByFirstName(firstName);
 	}

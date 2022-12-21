@@ -18,19 +18,8 @@ public class LoginHistory {
 	
 	@ManyToOne
     private	UserRegister user;
-
-	String status;
 	
 	LocalDateTime lastLoginTimeStamp;
-
-	
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public int getId() {
 		return id;

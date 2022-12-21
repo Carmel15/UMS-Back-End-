@@ -27,6 +27,8 @@ public class Controller {
 	@Autowired
 	private RegistrationService service;
 	
+	
+	
 	@Autowired
 	LoginHistoryRepository loginHistoryRepository;
 
@@ -90,7 +92,13 @@ public class Controller {
 		users = service.fetchUserList();
 		return users;
 	}
-
+	@GetMapping("/gethistorylist")
+	@CrossOrigin(origins = "http://localhost:3000")
+	public List<LoginHistory> fetchhistoryList() {
+		List<LoginHistory> his = new ArrayList<LoginHistory>();
+		his = service.fetchhistoryList();
+		return his;
+	}
 	@GetMapping("/getuserbyname/{firstName}")
 	@CrossOrigin(origins = "http://localhost:3000")
 	public UserRegister fetchUserByFirstName(@PathVariable String firstName) {
